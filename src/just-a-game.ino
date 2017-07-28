@@ -144,6 +144,10 @@ void listPoints() {
     timePlayed = 0;
     fromPause = true;
   } else {
+    if (inCombo && combo > 1) {
+      score = score + combo * .3;
+      combo = 0;
+    }
     arduboy.setCursor(15, 5);
     arduboy.print("You  hav reached");
     arduboy.setCursor(15, 15);
@@ -152,11 +156,6 @@ void listPoints() {
     if (score >= highscore) {
       highscore = score;
       arduboy.print("NEW HIGH: " + String(score));
-      Serial.print(frames % fps);
-      Serial.write(",");
-      Serial.print(0);
-      Serial.write(",");
-      Serial.write("\n");
       if (frames % fps == 0) {
         arduboy.setRGBled(0, 255, 0);
       } else if (frames % fps == fps / 2) {
@@ -184,14 +183,22 @@ void startScreen() {
     arduboy.print("Made by");
     arduboy.setCursor(15, 35);
     arduboy.print("Moritz Fromm");
+    arduboy.setCursor(15, 45);
+    arduboy.print("kubl.de/mf-game");
     arduboy.setCursor(15, 55);
     arduboy.print("A to play");
   }
 }
 
 void update() {
-  if (arduboy.pressed(B_BUTTON) && arduboy.pressed(DOWN_BUTTON) && arduboy.pressed(LEFT_BUTTON)) {
-    enemyWalkingFrame;
+  if (arduboy.pressed(B_BUTTON) && arduboy.pressed(DOWN_BUTTON) && arduboy.pressed(LEFT_BUTTON) && arduboy.pressed(UP_BUTTON)) {
+    gameStarted = false;
+    showTutorial = 1;
+    showPoints = false;
+    score = 0;
+    timePlayed = 0;
+    fromPause = true;
+  } else if (arduboy.pressed(B_BUTTON) && arduboy.pressed(DOWN_BUTTON) && arduboy.pressed(LEFT_BUTTON)) {
     xSpeed = 1;
     enemyX = 35;
     enemyY = 10;
@@ -202,7 +209,7 @@ void update() {
     framesPlayed = 0;
     timePlayed = 0;
     timeLeft = playTime;
-    if (combo > 1) {
+    if (inCombo && combo > 1) {
       score = score + combo * .3;
       combo = 0;
     }
@@ -258,8 +265,7 @@ void update() {
       combo = 0;
     }
     if (inCombo) {
-      Serial.print(1
-                  );
+      Serial.print(combo);
       Serial.write(",");
     } else  {
       Serial.print(0);
@@ -272,7 +278,6 @@ void update() {
     Serial.print(0);
     Serial.write(",");
     Serial.write("\n");
-
   }
   arduboy.setCursor(115, 55);
   arduboy.print(framesLeft);
@@ -286,18 +291,27 @@ void update() {
 
 void tutorial1() {
   if (arduboy.pressed(UP_BUTTON)) {
-    showTutorial = 2;
+    if (tutorialButtonReleased) {
+      showTutorial = 2;
+    }
     tutorialButtonReleased = false;
-  }  else {
-    arduboy.setCursor(20,0);
+  } else if (arduboy.pressed(DOWN_BUTTON)) {
+    if (tutorialButtonReleased) {
+      showTutorial = 1;
+      gameStarted = false;
+    }
+    tutorialButtonReleased = false;
+  } else {
+    tutorialButtonReleased = true;
+    arduboy.setCursor(20, 0);
     arduboy.print("TUTORIAL (1/2):");
-    arduboy.setCursor(5,10);
+    arduboy.setCursor(5, 10);
     arduboy.print("You have to hit");
-    arduboy.setCursor(5,20);
+    arduboy.setCursor(5, 20);
     arduboy.print("the enemy. When");
-    arduboy.setCursor(5,30);
+    arduboy.setCursor(5, 30);
     arduboy.print("you hit, you can");
-    arduboy.setCursor(5,40);
+    arduboy.setCursor(5, 40);
     arduboy.print("shot after a half Second...");
     arduboy.setCursor(5, 50);
     arduboy.print("UP to continue");
@@ -308,19 +322,24 @@ void tutorial2() {
   if (arduboy.pressed(UP_BUTTON)) {
     if (tutorialButtonReleased) {
       showTutorial = 3;
-      tutorialButtonReleased = false;
     }
-  }  else {
+    tutorialButtonReleased = false;
+  } else if (arduboy.pressed(DOWN_BUTTON)) {
+    if (tutorialButtonReleased) {
+      showTutorial = 1;
+    }
+    tutorialButtonReleased = false;
+  } else {
     tutorialButtonReleased = true;
-    arduboy.setCursor(20,0);
+    arduboy.setCursor(20, 0);
     arduboy.print("TUTORIAL (2/3):");
-    arduboy.setCursor(1,10);
+    arduboy.setCursor(1, 10);
     arduboy.print("...if not, you");
-    arduboy.setCursor(1,20);
+    arduboy.setCursor(1, 20);
     arduboy.print("you have to wait");
-    arduboy.setCursor(1,30);
+    arduboy.setCursor(1, 30);
     arduboy.print("2 Seconds. A combo");
-    arduboy.setCursor(1,40);
+    arduboy.setCursor(1, 40);
     arduboy.print("gives you a bonus");
     arduboy.setCursor(1, 50);
     arduboy.print("UP to continue");
@@ -332,8 +351,13 @@ void tutorial3() {
   if (arduboy.pressed(UP_BUTTON)) {
     if (tutorialButtonReleased) {
       showTutorial = 0;
-      fromPause = true;
     }
+    tutorialButtonReleased = false;
+  } else if (arduboy.pressed(DOWN_BUTTON)) {
+    if (tutorialButtonReleased) {
+      showTutorial = 2;
+    }
+    tutorialButtonReleased = false;
   } else {
     tutorialButtonReleased = true;
     arduboy.setCursor(20, 0);
@@ -355,24 +379,14 @@ void setup() {
 }
 
 void loop() {
-  frames++;
   if (!(arduboy.nextFrame()))return;
   if (arduboy.everyXFrames(3)) {
-    if (fromPause) {
-      delay(1000);
-    }
   }
+  frames++;
   if (arduboy.everyXFrames(3))enemyWalkingFrame++;
   if (enemyWalkingFrame > 5) enemyWalkingFrame = 2;
   arduboy.clear();
   arduboy.pollButtons();
-  if (tutorialButtonReleased) {
-    Serial.print(1);
-  } else {
-    Serial.print(0);
-  }
-  Serial.write("\n");
-  Serial.write(1);
   if (!gameStarted) {
     startScreen();
   } else if (showTutorial == 1) {
@@ -387,8 +401,9 @@ void loop() {
     update();
   }
   arduboy.display();
-  if (fromPause) {
-    fromPause = false;
-    delay(1000);
-  }
+  Serial.print(showTutorial);
+  Serial.write(",");
+  Serial.print(0);
+  Serial.write(",");
+  Serial.write("\n");
 }
