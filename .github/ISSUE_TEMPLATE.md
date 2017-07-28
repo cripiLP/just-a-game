@@ -6,7 +6,7 @@
 
 ## Where thsi issue can come from
 <!-- If you have a idea where this issue can be from, and if you fixed it by youself plese provide -->
-_I h´don't know where it could be_
+_I don't know where it could be_
 
 <!-- Only submit if you can check all the checkboxes below (replace the space in the [] with a "x")! -->
 - [ ] It is not a question about the Arduboy ore general Programming, i will ask such questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/arduino), the [Arduboy Community](https://community.arduboy.com/) or in the [Arduino Forum](https://forum.arduino.cc/index.php?board=4.0)
