@@ -1,3 +1,5 @@
+
+[![StyleCI](https://styleci.io/repos/98631810/shield?branch=master)](https://styleci.io/repos/98631810)
 # just-a-game
 It's just a random game that i made in 1 1/4 day.
 
@@ -13,3 +15,4 @@ It's just a random game that i made in 1 1/4 day.
 4. Paste the [sourcecode](src/just-a-game.ino) 
 5. Upload script (The arrow beside the top left hook)
 6. Enjoy!
+[![StyleCI](https://styleci.io/repos/98631810/shield?branch=master)](https://styleci.io/repos/98631810)
