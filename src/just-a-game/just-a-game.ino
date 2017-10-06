@@ -15,7 +15,7 @@ int randomSpeed = 0;
 int bulletSpeed = 3;
 int framesLeft = 0;
 int fps = 60;
-int playTime =  60;
+int playTime =  600;
 int buletWaitFrames = 120;
 int framesPlayed = 0;
 int timePlayed = 0;
@@ -282,13 +282,19 @@ void update() {
     Serial.write(",");
     Serial.write("\n");
   }
-  arduboy.setCursor(115, 55);
+  arduboy.setCursor(110, 55);
   arduboy.print(framesLeft);
-  arduboy.setCursor(75, 0);
-  arduboy.print("High: " + String(highscore));
+  arduboy.setCursor(70, 0);
+
+  
+  if ((score * scoreMultiplyer) > highscore) {
+    arduboy.print("High: " + String(round(score * scoreMultiplyer)));
+  } else {
+    arduboy.print("High: " + String(highscore));
+  }
   arduboy.setCursor(0, 0);
   arduboy.print(String(round(score * scoreMultiplyer)));
-  arduboy.setCursor(0, 50);
+  arduboy.setCursor(0, 55);
   arduboy.print(String(timeLeft) + " Sec. left");
 }
 
@@ -377,15 +383,12 @@ void tutorial3() {
 void setup() {
   // Initialize arduboy instance
   arduboy.begin();
-  arduboy.setFrameRate(fps);
   arduboy.clear();
   Serial.begin(9600);
 }
 
 void loop() {
   if (!(arduboy.nextFrame()))return;
-  if (arduboy.everyXFrames(3)) {
-  }
   frames++;
   if (arduboy.everyXFrames(3))enemyWalkingFrame++;
   if (enemyWalkingFrame > 5) enemyWalkingFrame = 2;
@@ -402,6 +405,7 @@ void loop() {
   } else if (showPoints) {
     listPoints();
   } else {
+  arduboy.setFrameRate(fps);
     update();
   }
   Serial.write(arduboy.getBuffer(), 128 * 64 / 8);
