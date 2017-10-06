@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "title": "just-a-game",
+  "description": ".arduboy file for just-a-game by Moritz Fromm",
+  "author": "Mroitz Fromm",
+  "version": "1.0",
+  "date": "2017-10-05",
+  "genre": "Shooter",
+  "publisher": "Moritz Fromm",
+  "idea": "Moritz Fromm",
+  "code": "Moritz Fromm",
+  "art": "http://team-arg.org/",
+  "sound": "",
+  "url": "bit.ly/mfGame",
+  "sourceUrl": "bit.ly/mfGame",
+  "email": "cripi1000@gmail.com",
+  "companion": "https://community.arduboy.com/t/arduboy-manager-2-0-released/2809",
+  "banner": "banner.png",
+  "screenshots": [
+    {
+      "title": "Title menue",
+      "filename": "screenshot_1.png"
+    },
+    {
+      "title": "Tutorial 1",
+      "filename": "screenshot_2.png"
+    },
+    {
+      "title": "Tutorial 2",
+      "filename": "screenshot_2.png"
+    },
+    {
+      "title": "Tutorial 3",
+      "filename": "screenshot_3.png"
+    },
+    {
+      "title": "gmaeplay <3 ",
+      "filename": "screenshot_5.png"
+    },
+    {
+      "title": "new highscore / end screen",
+      "filename": "screenshot_6.png"
+    }
+  ],
+  "binaries": [
+    {
+      "title": "the main project page",
+      "filename": "just-a-game.ino.hex",
+      "device": "Arduboy"
+    }
+  ],
+  "buttons": [
+    {
+      "control": "A+B+UP+LEFT+DOWN+RIGHT",
+      "action": "exit game"
+    },
+    {
+      "control": "A",
+      "action": "shoot"
+    },
+    {
+      "control": "Up",
+      "action": "show next tutorial page"
+    },
+    {
+      "control": "Down",
+      "action": "show last tutorial page"
+    }
+  ],
+  "eeprom": {
+    "variable": false,
+    "start": 0,
+    "end": 0
+  }
+}

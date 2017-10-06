@@ -1,4 +1,3 @@
-#include "Arduboy2.h"
 #include <Arduino.h>
 #include <Arduboy2.h>
 #include <ArduboyTones.h>
@@ -184,7 +183,7 @@ void startScreen() {
     arduboy.setCursor(15, 35);
     arduboy.print("Moritz Fromm");
     arduboy.setCursor(15, 45);
-    arduboy.print("kubl.de/mf-game");
+    arduboy.print("bit.ly/mfGame");
     arduboy.setCursor(15, 55);
     arduboy.print("A to play");
   }
@@ -237,6 +236,10 @@ void update() {
     enemyX = enemyX - (xSpeed);
     timeLeft = playTime - timePlayed;
     if (timeLeft <= 0) {
+      if (combo > 1) {
+        score = score + combo * .3;
+        combo = 0;
+      }
       score = score * scoreMultiplyer;
       showPoints = true;
     }
@@ -376,6 +379,7 @@ void setup() {
   arduboy.begin();
   arduboy.setFrameRate(fps);
   arduboy.clear();
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -400,10 +404,6 @@ void loop() {
   } else {
     update();
   }
+  Serial.write(arduboy.getBuffer(), 128 * 64 / 8);
   arduboy.display();
-  Serial.print(showTutorial);
-  Serial.write(",");
-  Serial.print(0);
-  Serial.write(",");
-  Serial.write("\n");
 }
