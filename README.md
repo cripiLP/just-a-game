@@ -15,7 +15,7 @@ It's just a random game that i made in 1 1/4 day.
 3. Select the [just-a-game.arduboy](https://github.com/cripiLP/just-a-game/raw/master/build/just-a-game.arduboy)
 4. Import by Double Clicking on the file
 5. Search and Select the game in the List on the left
-6. Click transfer (Any problems?)
+6. Click transfer ([Any problems?](https://github.com/cripiLP/just-a-game/blob/master/README.md#troubleshooting))
 
 #### Troubleshooting
 - [Are your drivers installed properly?](https://community.arduboy.com/t/arduboy-driver-installation-windows-os-x/2276)
