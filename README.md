@@ -26,5 +26,7 @@ It's just a random game that i made in 1 1/4 day.
 2. Install the arduboy 2 package ([Installation guide](https://community.arduboy.com/t/quick-start-guide/2790))
 3. Goto File and klick on New
 4. Paste the [sourcecode](src/just-a-game/just-a-game.ino) 
-5. Upload script (The arrow beside the top left hook)
-6. Enjoy!
+5. Go To Tools -> Board and select Arduino Leonard
+6. Go To Tools -> Port and select the port where a Aduino Leonard is listed
+7. Upload script (The arrow beside the top left hook)
+8. Enjoy!
